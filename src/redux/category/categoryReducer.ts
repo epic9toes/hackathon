@@ -36,7 +36,7 @@ const categoryReducer = (state = initialState, action: any) => {
         (x) => x.id === action.payload.id
       );
       if (idx !== -1) {
-        update_categories[idx].attributes[action.payload.index] =
+        update_categories[idx].attributes[action.payload.index].name =
           action.payload.name;
       }
       return { ...state, categories: update_categories };

@@ -1,6 +1,6 @@
 import { Keyboard, StyleSheet, View } from "react-native";
-import React, { useMemo, useRef } from "react";
-import { Text, TextInput, Button, Card } from "react-native-paper";
+import React, { useState } from "react";
+import { TextInput, Button, Card } from "react-native-paper";
 import { ProductModel } from "../../interfaces/ProductModel";
 import FieldGen from "../FieldGen";
 
@@ -8,7 +8,6 @@ import FieldTypes from "../../components/FieldTypes";
 import { InputTypeValue } from "../../interfaces/InputTypeValue";
 import { useDispatch } from "react-redux";
 
-import BottomSheet from "@gorhom/bottom-sheet";
 import {
   addCategoryAttribute,
   changeCategoryName,
@@ -22,11 +21,8 @@ type Props = {
 };
 const UpdateCategory = ({ item }: Props) => {
   const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
 
-  // ref
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  // variables
-  const snapPoints = useMemo(() => ["25%", "40%"], []);
   return (
     <View>
       <Card style={styles.cardContainer}>
@@ -62,8 +58,8 @@ const UpdateCategory = ({ item }: Props) => {
             icon="plus"
             mode="contained"
             onPress={() => {
+              setVisible(!visible);
               Keyboard.dismiss();
-              bottomSheetRef.current?.expand();
             }}
           >
             Add New Field
@@ -72,29 +68,25 @@ const UpdateCategory = ({ item }: Props) => {
             Change Title Field
           </Button>
         </Card.Actions>
+        {visible && (
+          <Card.Content>
+            <View style={{ flexDirection: "row" }}>
+              <FieldTypes
+                onSelect={(x: InputTypeValue) => {
+                  dispatch(
+                    addCategoryAttribute(item.id, {
+                      ...x,
+                      name: "",
+                      id: uuid.v4().toString(),
+                    })
+                  );
+                  setVisible(false);
+                }}
+              />
+            </View>
+          </Card.Content>
+        )}
       </Card>
-
-      {/* Menu  */}
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        snapPoints={snapPoints}
-        enablePanDownToClose={true}
-      >
-        <FieldTypes
-          onSelect={(x: InputTypeValue) => {
-            dispatch(
-              addCategoryAttribute(item.id, {
-                ...x,
-                name: "",
-                id: uuid.v4().toString(),
-              })
-            );
-            bottomSheetRef.current?.close();
-          }}
-          onCancel={() => bottomSheetRef.current?.close()}
-        />
-      </BottomSheet>
     </View>
   );
 };

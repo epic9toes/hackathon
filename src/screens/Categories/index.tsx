@@ -20,7 +20,6 @@ const Categories = () => {
   const navigation = useNavigation<any>();
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text>Gello</Text>
       {categories.map((x) => (
         <UpdateCategory item={x} key={x.id} />
       ))}
@@ -31,7 +30,7 @@ const Categories = () => {
           dispatch(
             addCategory({
               id: uuid.v4().toString(),
-              name: "New Category " + categories.length + 1,
+              name: "New Category " + (categories.length + 1),
               attributes: [],
             })
           );
