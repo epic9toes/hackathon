@@ -15,9 +15,16 @@ export default function MyDrawer() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Dashboard" component={Home} />
-      {categories.map((x, i) => (
-        <Drawer.Screen name={x.name} key={x.id} component={Equipments} />
-      ))}
+      {categories.map((x) =>
+        x.name ? (
+          <Drawer.Screen
+            initialParams={{ id: x.id }}
+            name={x.name}
+            key={x.id}
+            component={Equipments}
+          />
+        ) : null
+      )}
       <Drawer.Screen name="Categories" component={Categories} />
     </Drawer.Navigator>
   );

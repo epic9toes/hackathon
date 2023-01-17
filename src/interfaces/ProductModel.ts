@@ -5,4 +5,5 @@ export interface ProductModel {
   name: string;
   attributes: ProductAttrib[];
   titleAttribute?: string;
+  items: any[];
 }

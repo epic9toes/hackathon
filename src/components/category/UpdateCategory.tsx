@@ -11,10 +11,13 @@ import { useDispatch } from "react-redux";
 import {
   addCategoryAttribute,
   changeCategoryName,
+  changeCategoryTitleAttribute,
+  removeCategory,
   removeCategoryAttribute,
   updateCategoryAttribute,
 } from "../../redux/category/categoryActions";
 import uuid from "react-native-uuid";
+import CategoryFieldList from "./CategoryFieldList";
 
 type Props = {
   item: ProductModel;
@@ -22,11 +25,29 @@ type Props = {
 const UpdateCategory = ({ item }: Props) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
+  const [isTitle, setisTitle] = useState(false);
 
+  const RightContent = (index: number) => (
+    <Button
+      style={{ marginRight: 10 }}
+      icon="delete"
+      mode="contained"
+      onPress={() => {
+        dispatch(removeCategory(index));
+        Keyboard.dismiss();
+      }}
+    >
+      Delete
+    </Button>
+  );
   return (
     <View>
       <Card style={styles.cardContainer}>
-        <Card.Title title={item.name} />
+        <Card.Title
+          title={item.name ? item.name : "Unnamed!"}
+          right={RightContent}
+        />
+
         <Card.Content>
           <TextInput
             mode="outlined"
@@ -64,9 +85,11 @@ const UpdateCategory = ({ item }: Props) => {
           >
             Add New Field
           </Button>
-          <Button mode="outlined" onPress={() => console.log("Pressed")}>
-            Change Title Field
-          </Button>
+          {item.attributes.length > 1 && (
+            <Button mode="outlined" onPress={() => setisTitle(!isTitle)}>
+              Change Title Field
+            </Button>
+          )}
         </Card.Actions>
         {visible && (
           <Card.Content>
@@ -81,6 +104,19 @@ const UpdateCategory = ({ item }: Props) => {
                     })
                   );
                   setVisible(false);
+                }}
+              />
+            </View>
+          </Card.Content>
+        )}
+        {isTitle && (
+          <Card.Content>
+            <View style={{ flexDirection: "row" }}>
+              <CategoryFieldList
+                items={item.attributes}
+                onSelect={(x: string) => {
+                  dispatch(changeCategoryTitleAttribute(x, item.id));
+                  setisTitle(false);
                 }}
               />
             </View>
