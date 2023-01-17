@@ -15,12 +15,13 @@ import {
   UPDATE_ITEM,
 } from "./categoryTypes";
 
-export const updateDataFromLocalStorage = (category: ProductModel) => {
+export const updateDataFromLocalStorage = (categories: any) => {
   return {
     type: UPDATE_FROM_ASYNC,
-    payload: category,
+    payload: categories,
   };
 };
+
 export const addCategory = (category: ProductModel) => {
   return {
     type: ADD_CATEGORY,
