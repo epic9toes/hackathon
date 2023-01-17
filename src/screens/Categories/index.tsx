@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import React from "react";
 import FabButton from "../../components/FabButton";
 import { useNavigation } from "@react-navigation/native";
@@ -47,6 +47,6 @@ export default Categories;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
   },
 });

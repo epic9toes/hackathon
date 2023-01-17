@@ -9,6 +9,7 @@ import {
   REMOVE_ITEM,
   UPDATE_CATEGORY_ATTRIBUTE,
   UPDATE_CATEGORY_TITLE_ATTRIBUTE,
+  UPDATE_FROM_ASYNC,
   UPDATE_ITEM,
 } from "./categoryTypes";
 
@@ -20,6 +21,9 @@ const initialState = {
 
 const categoryReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case UPDATE_FROM_ASYNC:
+      return { ...state, categories: [...state.categories, action.payload] };
+
     case ADD_CATEGORY:
       return { ...state, categories: [...state.categories, action.payload] };
 

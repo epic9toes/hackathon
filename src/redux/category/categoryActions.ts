@@ -11,9 +11,16 @@ import {
   REMOVE_ITEM,
   UPDATE_CATEGORY_ATTRIBUTE,
   UPDATE_CATEGORY_TITLE_ATTRIBUTE,
+  UPDATE_FROM_ASYNC,
   UPDATE_ITEM,
 } from "./categoryTypes";
 
+export const updateDataFromLocalStorage = (category: ProductModel) => {
+  return {
+    type: UPDATE_FROM_ASYNC,
+    payload: category,
+  };
+};
 export const addCategory = (category: ProductModel) => {
   return {
     type: ADD_CATEGORY,
@@ -28,10 +35,10 @@ export const getCategory = (id: string) => {
   };
 };
 
-export const removeCategory = (index: number) => {
+export const removeCategory = (id: string) => {
   return {
     type: REMOVE_CATEGORY,
-    payload: index,
+    payload: id,
   };
 };
 
